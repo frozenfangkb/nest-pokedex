@@ -37,7 +37,9 @@ export class PokemonService {
       pokemon = await this.pokemonModel.findById(term);
     } else if (!pokemon) {
       pokemon = await this.pokemonModel.findOne({ name: term.toLowerCase() });
-    } else if (!pokemon)
+    }
+
+    if (!pokemon)
       throw new NotFoundException(
         `Pokemon with id, name or no "${term}" not found`,
       );
@@ -59,8 +61,9 @@ export class PokemonService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string) {
+    const pokemon = await this.findOne(id);
+    await pokemon.deleteOne();
   }
 
   private handleExceptions(error: any) {
