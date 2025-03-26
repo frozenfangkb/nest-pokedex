@@ -16,6 +16,19 @@ export class PokemonService {
     @InjectModel(Pokemon.name) private readonly pokemonModel: Model<Pokemon>,
   ) {}
 
+  async createMany(createPokemonsDto: CreatePokemonDto[]) {
+    const toSaveDto = createPokemonsDto.map((x) => ({
+      ...x,
+      name: x.name.toLowerCase(),
+    }));
+
+    try {
+      return await this.pokemonModel.insertMany(toSaveDto);
+    } catch (error) {
+      this.handleExceptions(error);
+    }
+  }
+
   async create(createPokemonDto: CreatePokemonDto) {
     createPokemonDto.name = createPokemonDto.name.toLowerCase();
     try {
