@@ -11,6 +11,8 @@ export class SeedService {
   constructor(private readonly pokemonService: PokemonService) {}
 
   async executeSeed() {
+    await this.pokemonService.flushPokemons();
+
     const { data } = await this.axios.get<PokeAPIResponse>(
       'https://pokeapi.co/api/v2/pokemon?limit=151',
     );

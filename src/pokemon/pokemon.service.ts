@@ -83,6 +83,14 @@ export class PokemonService {
     return;
   }
 
+  async flushPokemons() {
+    try {
+      return await this.pokemonModel.deleteMany({});
+    } catch (error) {
+      this.handleExceptions(error);
+    }
+  }
+
   private handleExceptions(error: any) {
     if (error.code === 11000) {
       throw new BadRequestException(
