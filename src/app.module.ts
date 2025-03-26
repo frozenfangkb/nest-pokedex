@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { EnvConfig } from './config/app.config';
+import { JoiValidationSchema } from './config/joi.validation';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { EnvConfig } from './config/app.config';
       isGlobal: true,
       envFilePath: '.env',
       load: [EnvConfig],
+      validationSchema: JoiValidationSchema,
     }),
     MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STRING),
     PokemonModule,
